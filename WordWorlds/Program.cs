@@ -1,4 +1,4 @@
-﻿using NStack;
+using NStack;
 using Terminal.Gui;
 using WordWorlds;
 using WordWorldsXML;
@@ -12,23 +12,12 @@ Room room = zone.Rooms.Where(r => r.Initial).First();
 var win = new Window("WordWorlds")
 {
     X = 0,
-    Y = 1,
+    Y = 0,
 
     Width = Dim.Fill(),
     Height = Dim.Fill()
 };
 
-var menu = new MenuBar(new MenuBarItem[]{
-    new MenuBarItem("_File", new MenuItem[]{
-        new MenuItem("_Quit", "", () => {if (Quit()) Application.Top.Running = false;})
-    })
-});
-
-static bool Quit()
-{
-    var choice = MessageBox.Query(50, 7, "Quit?", "Are you sure you want to quit?", "Yes", "No");
-    return choice == 0;
-}
 var narrator = new Label(room.Description)
 {
     X = Pos.Center(),
@@ -108,6 +97,6 @@ terminal.KeyDown += (e) =>
     }
 };
 win.Add(narrator, terminal);
-Application.Top.Add(menu, win);
+Application.Top.Add(win);
 Application.Run();
 Application.Shutdown();
