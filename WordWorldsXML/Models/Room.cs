@@ -2,12 +2,19 @@ namespace WordWorldsXML.Models;
 
 public class Room
 {
+    //Assumed to be unique
+    public string Name {get;set;}
     public string Description {get;set;} = String.Empty;
-    public bool Initial {get;set;} = false;
 
+    //Clockwise: 0=N, 1=NE, etc...
+    public string?[] NeighboringIDs {get;set;}  = new string?[8]{null, null, null, null, null, null, null, null};
     public List<Item> Items {get;set;} = new List<Item>();
     public List<NPC> NPCs {get;set;} = new List<NPC>();
 
+    public Room(string name)
+    {
+        Name = name;
+    }
 
     public Item? GetItemByName(string name)
     {

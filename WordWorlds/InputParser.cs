@@ -2,11 +2,12 @@ using NStack;
 
 namespace WordWorlds;
 
-public static class InputParser
+public class InputParser
 {
     private static ustring[] Help = new ustring[] { "h", "help" };
     private static ustring[] Character = new ustring[] { "c", "character" };
     private static ustring[] Look = new ustring[] { "l", "look" };
+    private static ustring[] Move = new ustring[] { "m", "move" };
     private static ustring[] Take = new ustring[] { "t", "take" };
     private static ustring[] Inventory = new ustring[] { "i", "inventory" };
 
@@ -29,6 +30,8 @@ public static class InputParser
             return GameAction.Character;
         else if (Look.Contains(command))
             return GameAction.Look;
+        else if (Move.Contains(command))
+            return GameAction.Move;
         else if (Take.Contains(command))
             return GameAction.Take;
         else if (Inventory.Contains(command))
@@ -43,6 +46,7 @@ public enum GameAction
     Help,
     Character,
     Look,
+    Move,
     Take,
     Inventory,
     Empty,

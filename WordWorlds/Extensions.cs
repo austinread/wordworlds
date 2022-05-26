@@ -8,7 +8,7 @@ public static class Extensions
     {
         string? str = ustr.ToString();
         if (str == null)
-            throw new Exception();
+            throw new Exception("Cannot convert null ustring to non-null string");
         else
             return str;
     }

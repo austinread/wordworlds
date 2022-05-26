@@ -1,4 +1,4 @@
-using NStack;
+﻿using NStack;
 using Terminal.Gui;
 using WordWorlds;
 using WordWorldsXML;
@@ -7,7 +7,7 @@ using WordWorldsXML.Models;
 Application.Init();
 Player player = Loader.LoadPlayer();
 Zone zone = Loader.LoadInitialZone();
-Room room = zone.Rooms.Where(r => r.Initial).First();
+Room room = zone.Rooms.Where(r => r.Name == zone.InitialRoomName).First();
 
 var win = new Window("WordWorlds")
 {
@@ -30,6 +30,7 @@ var terminal = new TextField("")
 
     Width = Dim.Fill(),
 };
+
 terminal.KeyDown += (e) => 
 {
     if (e.KeyEvent.Key == Key.Enter)
@@ -46,6 +47,7 @@ terminal.KeyDown += (e) =>
                 - [H]elp: view help menu
                 - [C]haracter: view details about yourself
                 - [L]ook: observe your surroundings or something or someone in them
+                - [M]ove: move yourself to a neighboring location
                 - [T]ake: pick up an item
                 - [I]nventory: manage items you have
                 ";
@@ -60,6 +62,26 @@ terminal.KeyDown += (e) =>
                     narrator.Text = room.Description;
                 else
                     narrator.Text = room.GetChildDescriptionByName(target.ToNonNullString());
+                break;
+
+            case GameAction.Move:
+                if (actionOnly)
+                {
+                    narrator.Text = "Where are you moving?";
+                }
+                else
+                {
+                    Room? newRoom = zone.GetRoomByDirection(room, target.ToNonNullString(), out string error);
+                    if(newRoom == null)
+                    {
+                        narrator.Text = error;
+                    }
+                    else
+                    {
+                        room = newRoom;
+                        narrator.Text = room.Description;
+                    }
+                }
                 break;
 
             case GameAction.Take:
