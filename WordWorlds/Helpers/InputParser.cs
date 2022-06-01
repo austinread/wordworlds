@@ -1,6 +1,6 @@
 using NStack;
 
-namespace WordWorlds;
+namespace WordWorlds.Helpers;
 
 public class InputParser
 {
