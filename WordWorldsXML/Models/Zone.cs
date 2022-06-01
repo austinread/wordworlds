@@ -17,8 +17,8 @@ public class Zone
         Room? newRoom = null;
         if (Directions.Match(directionStr, out int direction))
         {
-            string? roomName = currentRoom.NeighboringIDs[direction];
-            if (roomName == null)
+            string roomName = currentRoom.NeighboringIDs[direction];
+            if (roomName == String.Empty)
                 error = "There is nothing in that direction.";
             else
                 newRoom = Rooms.Where(r => r.Name == roomName).First();
