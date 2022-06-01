@@ -1,7 +1,5 @@
 using NStack;
 
-namespace WordWorlds;
-
 public static class Extensions
 {
     public static string ToNonNullString(this ustring ustr)

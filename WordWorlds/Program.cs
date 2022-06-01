@@ -1,6 +1,5 @@
 ﻿using NStack;
 using Terminal.Gui;
-using WordWorlds;
 using WordWorlds.Helpers;
 using WordWorldsXML;
 using WordWorldsXML.Models;
