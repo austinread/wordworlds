@@ -22,15 +22,23 @@ public class Room
         return matchingItem;
     }
 
-    public string GetChildDescriptionByName(string name)
+    public string GetChildDescriptionByName(string name, out string caseCorrectName)
     {
+        caseCorrectName = String.Empty;
+        
         Item? matchingItem = Items.Where(i => i.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
         if (matchingItem != null)
+        {
+            caseCorrectName = matchingItem.Name;
             return matchingItem.Description;
+        }
 
         NPC? matchingNPC = NPCs.Where(n => n.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
         if (matchingNPC != null)
+        {
+            caseCorrectName = matchingNPC.Name;
             return matchingNPC.Description;
+        }
 
         return "There is nothing here by that name.";
     }

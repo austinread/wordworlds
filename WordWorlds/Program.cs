@@ -1,4 +1,5 @@
 ﻿using NStack;
+using System.Text;
 using Terminal.Gui;
 using WordWorlds;
 using WordWorldsXML;
@@ -18,11 +19,17 @@ var win = new Window("WordWorlds")
     Height = Dim.Fill()
 };
 
-var narrator = new Label(room.Description)
+var narrator = new Label()
 {
     X = Pos.Center(),
-    Y = Pos.Center()
+    Y = Pos.Center(),
+    Width = Dim.Percent(50),
+    Height = Dim.Percent(50),
+    TextAlignment = TextAlignment.Centered,
+    VerticalTextAlignment = VerticalTextAlignment.Middle
 };
+Narrate(room.Description, room.Name);
+
 var terminal = new TextField("")
 {
     X = 0,
@@ -42,44 +49,50 @@ terminal.KeyDown += (e) =>
         switch(action)
         {
             case GameAction.Help:
-                narrator.Text = @"
-                Commands:
-                - [H]elp: view help menu
-                - [C]haracter: view details about yourself
-                - [L]ook: observe your surroundings or something or someone in them
-                - [M]ove: move yourself to a neighboring location
-                - [T]ake: pick up an item
-                - [I]nventory: manage items you have
+                string helpStr = @"
+Commands:
+- [H]elp: view help menu
+- [C]haracter: view details about yourself
+- [L]ook: observe your surroundings or something or someone in them
+- [M]ove: move yourself to a neighboring location
+- [T]ake: pick up an item
+- [I]nventory: manage items you have
                 ";
+                Narrate(helpStr, alignment: TextAlignment.Left);
                 break;
 
             case GameAction.Character:
-                narrator.Text = player.CharacterSummary;
+                Narrate(player.CharacterSummary, alignment: TextAlignment.Left);
                 break;
 
             case GameAction.Look:
                 if(actionOnly)
-                    narrator.Text = room.Description;
+                {
+                    Narrate(room.Description, room.Name);
+                }
                 else
-                    narrator.Text = room.GetChildDescriptionByName(target.ToNonNullString());
+                {
+                    string desc = room.GetChildDescriptionByName(target.ToNonNullString(), out string caseCorrectName);
+                    Narrate(desc, caseCorrectName);
+                }
                 break;
 
             case GameAction.Move:
                 if (actionOnly)
                 {
-                    narrator.Text = "Where are you moving?";
+                    Narrate("Where are you moving?");
                 }
                 else
                 {
                     Room? newRoom = zone.GetRoomByDirection(room, target.ToNonNullString(), out string error);
                     if(newRoom == null)
                     {
-                        narrator.Text = error;
+                        Narrate(error);
                     }
                     else
                     {
                         room = newRoom;
-                        narrator.Text = room.Description;
+                        Narrate(room.Description, room.Name);
                     }
                 }
                 break;
@@ -87,25 +100,25 @@ terminal.KeyDown += (e) =>
             case GameAction.Take:
                 if (actionOnly)
                 {
-                    narrator.Text = "What are you taking?";
+                    Narrate("What are you taking?");
                 }
                 else
                 {
                     Item? item = room.GetItemByName(target.ToNonNullString());
                     if (item == null)
                     {
-                        narrator.Text = "There is no object here by that name.";
+                        Narrate("There is no object here by that name.");
                     }
                     else
                     {
                         player.Inventory.Add(item);
-                        narrator.Text = $"You picked up the {item.Name}";
+                        Narrate($"You picked up the {item.Name}");
                     }
                 }
                 break;
 
             case GameAction.Inventory:
-                narrator.Text = player.InventorySummary;
+                Narrate(player.InventorySummary, alignment: TextAlignment.Left);
                 break;
 
             case GameAction.Empty:
@@ -113,7 +126,7 @@ terminal.KeyDown += (e) =>
 
             case GameAction.Undefined:
             default:
-                narrator.Text = "Command unrecognized, type Help to see available commands.";
+                Narrate("Command unrecognized, type Help to see available commands.");
                 break;
         }
     }
@@ -122,3 +135,22 @@ win.Add(narrator, terminal);
 Application.Top.Add(win);
 Application.Run();
 Application.Shutdown();
+
+void Narrate(string content, string? title = null, TextAlignment alignment = TextAlignment.Centered)
+{
+    if (narrator == null)
+        return;
+    
+    narrator.Text = "";
+
+    var sb = new StringBuilder();
+    if (title != null)
+    {
+        sb.Append(title + "\n");
+        sb.Append(new string('-', title.Length) + "\n");
+    }
+    sb.Append(content);
+
+    narrator.TextAlignment = alignment;
+    narrator.Text = sb.ToString();
+}
