@@ -9,9 +9,8 @@ public class Loader
         Player player = new Player{ Name = "Biggus Dickus" };
         return player;
     }
-    public static Zone LoadInitialZone()
+    public static Game LoadGame()
     {
-        //Here be test data
         List<Item> startItems = new List<Item>{ new Item { Name = "Desk", Description = "A Mid-Century classic masterpiece, ruined by terrible decor. " }};
         List<NPC> startNPCs = new List<NPC>{ new NPC { Name = "Dog", Description = "What a good pup." }};
 
@@ -30,9 +29,11 @@ public class Loader
         };
         kitchen.NeighboringIDs[2] = "Office";
 
-        var zone = new Zone(office);
-        zone.Rooms.Add(kitchen);
+        var house = new Zone("House", office);
+        house.Rooms.Add(kitchen);
 
-        return zone;
+        var game = new Game("Test-Game 9000", house);
+
+        return game;
     }
 }

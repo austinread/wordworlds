@@ -8,10 +8,9 @@ var narrationHelper = new NarrationHelper();
 
 Application.Init();
 Player player = Loader.LoadPlayer();
-Zone zone = Loader.LoadInitialZone();
-Room room = zone.Rooms.Where(r => r.Name == zone.InitialRoomName).First();
+var context = ObjectManager.Instance;
 
-var win = new Window("WordWorlds")
+var win = new Window(context.LoadedGame.Name)
 {
     X = 0,
     Y = 0,
@@ -20,7 +19,7 @@ var win = new Window("WordWorlds")
     Height = Dim.Fill()
 };
 
-narrationHelper.NarrateWithRoomHints(room, zone);
+narrationHelper.NarrateWithRoomHints();
 
 var terminal = new TextField("")
 {
@@ -60,11 +59,11 @@ Commands:
             case GameAction.Look:
                 if(actionOnly)
                 {
-                    narrationHelper.NarrateWithRoomHints(room, zone);
+                    narrationHelper.NarrateWithRoomHints();
                 }
                 else
                 {
-                    string desc = room.GetChildDescriptionByName(target.ToNonNullString(), out string caseCorrectName);
+                    string desc = context.CurrentRoom.GetChildDescriptionByName(target.ToNonNullString(), out string caseCorrectName);
                     narrationHelper.Narrate(desc, caseCorrectName);
                 }
                 break;
@@ -76,16 +75,16 @@ Commands:
                 }
                 else
                 {
-                    Room? newRoom = zone.GetRoomByDirection(room, target.ToNonNullString(), out string error);
+                    Room? newRoom = context.LoadedZone.GetRoomByDirection(context.CurrentRoom, target.ToNonNullString(), out string error);
                     if(newRoom == null)
                     {
                         narrationHelper.Narrate(error);
                     }
                     else
                     {
-                        room = newRoom;
-                        if (!room.Discovered) room.Discovered = true;
-                        narrationHelper.NarrateWithRoomHints(room, zone);
+                        context.CurrentRoom = newRoom;
+                        if (!context.CurrentRoom.Discovered) context.CurrentRoom.Discovered = true;
+                        narrationHelper.NarrateWithRoomHints();
                     }
                 }
                 break;
@@ -97,7 +96,7 @@ Commands:
                 }
                 else
                 {
-                    Item? item = room.GetItemByName(target.ToNonNullString());
+                    Item? item = context.CurrentRoom.GetItemByName(target.ToNonNullString());
                     if (item == null)
                     {
                         narrationHelper.Narrate("There is no object here by that name.");

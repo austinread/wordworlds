@@ -2,14 +2,19 @@ namespace WordWorldsXML.Models;
 
 public class Zone
 {
-    public Zone(Room initial)
+    //Assumed to be unique
+    public string Name {get;set;}
+    public List<Room> Rooms {get;set;}
+    public string InitialRoomName {get;set;}
+    public Room InitialRoom => Rooms.Where(r => r.Name == InitialRoomName).Single();
+
+    public Zone(string name, Room initial)
     {
+        Name = name;
         Rooms = new List<Room>();
         Rooms.Add(initial);
         InitialRoomName = initial.Name;
     }
-    public List<Room> Rooms {get;set;}
-    public string InitialRoomName {get;set;}
 
     public Room? GetRoomByDirection(Room currentRoom, string directionStr, out string error)
     {
