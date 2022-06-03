@@ -25,7 +25,8 @@ public class Loader
 
         Room kitchen = new Room("Kitchen")
         { 
-            Description = "Your kitchen contains nothing but a hole in the ground.  It stretches so far down, you cannot see the bottom."
+            Description = "Your kitchen contains nothing but a hole in the ground.  It stretches so far down, you cannot see the bottom.",
+            Discovered = false
         };
         kitchen.NeighboringIDs[2] = "Office";
 

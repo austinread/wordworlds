@@ -119,20 +119,47 @@ public class NarrationHelper
         Narrator.Text = sb.ToString();
     }
 
-    public void NarrateWithRoomHints(Room room)
+    public void NarrateWithRoomHints(Room thisRoom, Zone thisZone)
     {
-        Narrate(room.Description, room.Name);
-        HintNorth.Text = room.NeighboringIDs[0] != String.Empty ? room.NeighboringIDs[0] + "\n^" : "";
-        HintNorthEast.Text = room.NeighboringIDs[1] != String.Empty ? room.NeighboringIDs[1] + "\n^>" : "";
-        HintEast.Text = room.NeighboringIDs[2] != String.Empty ? "> " + room.NeighboringIDs[2] : "";
-        HintSouthEast.Text = room.NeighboringIDs[3] != String.Empty ? "V>\n" + room.NeighboringIDs[3] : "";
-        HintSouth.Text = room.NeighboringIDs[4] != String.Empty ? "V\n" + room.NeighboringIDs[4] : "";
-        HintSouthWest.Text = room.NeighboringIDs[5] != String.Empty ? "V<\n" + room.NeighboringIDs[5] : "";
-        HintWest.Text = room.NeighboringIDs[6] != String.Empty ? room.NeighboringIDs[6] + " <" : "";
-        HintNorthWest.Text = room.NeighboringIDs[7] != String.Empty ? room.NeighboringIDs[7] + "\n^<" : "";
+        Narrate(thisRoom.Description, thisRoom.Name);
+        HintNorth.Text = GetHint(thisRoom.NeighboringIDs[0], thisZone, (x) => {return x + "\n^";});
+        HintNorthEast.Text = GetHint(thisRoom.NeighboringIDs[1], thisZone, (x) => {return x + "\n^>";});
+        HintEast.Text = GetHint(thisRoom.NeighboringIDs[2], thisZone, (x) => {return "> " + x;});
+        HintSouthEast.Text = GetHint(thisRoom.NeighboringIDs[3], thisZone, (x) => {return "V>\n" + x;});
+        HintSouth.Text = GetHint(thisRoom.NeighboringIDs[4], thisZone, (x) => {return "V\n" + x;});
+        HintSouthWest.Text = GetHint(thisRoom.NeighboringIDs[5], thisZone, (x) => {return "V<\n"  + x;});
+        HintWest.Text = GetHint(thisRoom.NeighboringIDs[6], thisZone, (x) => {return x + " <";});
+        HintNorthWest.Text = GetHint(thisRoom.NeighboringIDs[7], thisZone, (x) => {return x + "\n^<";});
 
+        //Wierd fuckery to align the right-side hints
         HintNorthEast.X = Pos.AnchorEnd() - HintNorthEast.Text.Length+3;
         HintEast.X = Pos.AnchorEnd() - HintEast.Text.Length;
         HintSouthEast.X = Pos.AnchorEnd() - HintSouthEast.Text.Length+3;
+    }
+
+    /// <summary>
+    /// Builds hint text for a given direction, taking into account discovery value and zone linking
+    /// </summary>
+    /// <param name="neighbor">Name of neighboring room</param>
+    /// <param name="thisZone"></param>
+    /// <param name="formatter">input: room text, output: hint text</param>
+    /// <returns></returns>
+    private string GetHint(string neighbor, Zone thisZone, Func<string, string> formatter)
+    {
+        if (neighbor != String.Empty)
+        {
+            //TODO: rooms in other zones
+            Room? linkedRoom = thisZone.Rooms.Where(r => r.Name == neighbor).FirstOrDefault();
+            if (linkedRoom == null)
+                return "ERR";
+            else if(!linkedRoom.Discovered)
+                return formatter("???");
+            else
+                return formatter(neighbor);
+        }
+        else
+        {
+            return "";
+        }
     }
 }

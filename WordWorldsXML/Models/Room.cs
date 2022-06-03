@@ -5,6 +5,7 @@ public class Room
     //Assumed to be unique
     public string Name {get;set;}
     public string Description {get;set;} = String.Empty;
+    public bool Discovered {get;set;} = true;
 
     //Clockwise: 0=N, 1=NE, etc...
     public string[] NeighboringIDs {get;set;}  = new string[8]{String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty};

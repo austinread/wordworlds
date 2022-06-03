@@ -20,7 +20,7 @@ var win = new Window("WordWorlds")
     Height = Dim.Fill()
 };
 
-narrationHelper.NarrateWithRoomHints(room);
+narrationHelper.NarrateWithRoomHints(room, zone);
 
 var terminal = new TextField("")
 {
@@ -60,7 +60,7 @@ Commands:
             case GameAction.Look:
                 if(actionOnly)
                 {
-                    narrationHelper.NarrateWithRoomHints(room);
+                    narrationHelper.NarrateWithRoomHints(room, zone);
                 }
                 else
                 {
@@ -84,7 +84,8 @@ Commands:
                     else
                     {
                         room = newRoom;
-                        narrationHelper.NarrateWithRoomHints(room);
+                        if (!room.Discovered) room.Discovered = true;
+                        narrationHelper.NarrateWithRoomHints(room, zone);
                     }
                 }
                 break;
