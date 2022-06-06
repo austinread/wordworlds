@@ -8,12 +8,14 @@ public sealed class ObjectManager
     public static ObjectManager Instance => instance;
 
     public Game LoadedGame {get;private set;}
+    public Player LoadedPlayer {get;private set;}
     public Zone LoadedZone {get;private set;}
     public Room CurrentRoom {get; set;}
 
     private ObjectManager()
     {
         LoadedGame = Loader.LoadGame();
+        LoadedPlayer = Loader.LoadPlayer();
         LoadedZone = LoadedGame.InitialZone;
         CurrentRoom = LoadedZone.InitialRoom;
     }

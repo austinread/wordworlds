@@ -7,7 +7,6 @@ using WordWorldsXML.Models;
 var narrationHelper = new NarrationHelper();
 
 Application.Init();
-Player player = Loader.LoadPlayer();
 var context = ObjectManager.Instance;
 
 var win = new Window(context.LoadedGame.Name)
@@ -53,7 +52,7 @@ Commands:
                 break;
 
             case GameAction.Character:
-                narrationHelper.Narrate(player.CharacterSummary, alignment: TextAlignment.Left);
+                narrationHelper.Narrate(context.LoadedPlayer.CharacterSummary, alignment: TextAlignment.Left);
                 break;
 
             case GameAction.Look:
@@ -103,14 +102,14 @@ Commands:
                     }
                     else
                     {
-                        player.Inventory.Add(item);
+                        context.LoadedPlayer.Inventory.Add(item);
                         narrationHelper.Narrate($"You picked up the {item.Name}");
                     }
                 }
                 break;
 
             case GameAction.Inventory:
-                narrationHelper.Narrate(player.InventorySummary, alignment: TextAlignment.Left);
+                narrationHelper.Narrate(context.LoadedPlayer.InventorySummary, alignment: TextAlignment.Left);
                 break;
 
             case GameAction.Empty:
