@@ -1,3 +1,4 @@
+using System.Configuration;
 using WordWorldsXML.Models;
 
 namespace WordWorldsXML;
@@ -14,8 +15,14 @@ public sealed class ObjectManager
 
     private ObjectManager()
     {
+        var appSettings = ConfigurationManager.AppSettings;
+        string? dataPath = appSettings["GamePath"];
+        if (dataPath == null)
+            //TODO: user friendly error reporting
+            throw new Exception("Game Data Path not configured");
+        
         LoadedGame = Loader.LoadGame();
-        LoadedPlayer = Loader.LoadPlayer();
+        LoadedPlayer = Loader.LoadPlayer(dataPath);
         LoadedZone = LoadedGame.InitialZone;
         CurrentRoom = LoadedZone.InitialRoom;
     }

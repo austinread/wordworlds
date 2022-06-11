@@ -4,10 +4,11 @@ using WordWorlds.Helpers;
 using WordWorldsXML;
 using WordWorldsXML.Models;
 
-var narrationHelper = new NarrationHelper();
+
+var context = ObjectManager.Instance;
 
 Application.Init();
-var context = ObjectManager.Instance;
+var narrationHelper = new NarrationHelper();
 
 var win = new Window(context.LoadedGame.Name)
 {

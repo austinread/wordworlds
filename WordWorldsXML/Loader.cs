@@ -1,13 +1,17 @@
+using System.Xml.Linq;
 using WordWorldsXML.Models;
 
 namespace WordWorldsXML;
 
 public class Loader
 {
-    public static Player LoadPlayer()
+    private const string PLAYER_FILENAME = "Player.xml";
+
+    public static Player LoadPlayer(string dataPath)
     {
-        Player player = new Player{ Name = "Biggus Dickus" };
-        return player;
+        var filePath = Path.Combine(dataPath, PLAYER_FILENAME);
+        XElement playerXML = XElement.Load(filePath);
+        return Player.ParseFromXML(playerXML);
     }
     public static Game LoadGame()
     {

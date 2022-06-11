@@ -1,4 +1,5 @@
 using System.Text;
+using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
@@ -9,6 +10,13 @@ public class Player
 
     public string InventorySummary => BuildInventorySummary();
     public string CharacterSummary => BuildCharacterSummary();
+
+    public static Player ParseFromXML(XElement xml)
+    {
+        Player player = new Player();
+        player.Name = xml.GetAttribute("Name");
+        return player;
+    }
 
     public string BuildCharacterSummary()
     {
