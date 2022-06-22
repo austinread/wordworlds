@@ -1,9 +1,11 @@
+using System.Xml.Linq;
+
 namespace WordWorldsXML.Models;
 
 public class Room
 {
     //Assumed to be unique
-    public string Name {get;set;}
+    public string Name {get;set;} = String.Empty;
     public string Description {get;set;} = String.Empty;
     public bool Discovered {get;set;} = true;
 
@@ -12,9 +14,27 @@ public class Room
     public List<Item> Items {get;set;} = new List<Item>();
     public List<NPC> NPCs {get;set;} = new List<NPC>();
 
-    public Room(string name)
+    public static Room ParseFromXML(XElement xml)
     {
-        Name = name;
+        Room room = new Room();
+
+        room.Name = xml.GetAttribute("Name");
+        room.Description = xml.GetAttribute("Description");
+        room.Discovered = xml.GetBoolean("Discovered");
+
+        var neighbors = xml.Descendants("Neighbors").SingleOrDefault();
+        if (neighbors != null)
+        {
+            foreach (var attr in neighbors.Attributes())
+            {
+                if (!Directions.Match(attr.Name.ToString(), out int i))
+                    continue;
+
+                room.NeighboringIDs[i] = attr.Value;
+            }
+        }
+
+        return room;
     }
 
     public Item? GetItemByName(string name)

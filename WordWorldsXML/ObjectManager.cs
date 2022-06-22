@@ -21,9 +21,9 @@ public sealed class ObjectManager
             //TODO: user friendly error reporting
             throw new Exception("Game Data Path not configured");
         
-        LoadedGame = Loader.LoadGame();
+        LoadedGame = Loader.LoadGame(dataPath);
         LoadedPlayer = Loader.LoadPlayer(dataPath);
-        LoadedZone = LoadedGame.InitialZone;
+        LoadedZone = Loader.LoadZone(dataPath, LoadedGame.InitialZoneName);
         CurrentRoom = LoadedZone.InitialRoom;
     }
 }

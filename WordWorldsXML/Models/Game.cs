@@ -1,16 +1,17 @@
+using System.Xml.Linq;
+
 namespace WordWorldsXML.Models;
 
 public class Game
 {
-    public string Name {get;set;}
-    public List<Zone> Zones {get;set;}
-    public string InitialZoneName {get;set;}
-    public Zone InitialZone => Zones.Where(z => z.Name == InitialZoneName).Single();
-    public Game(string name, Zone initial)
+    public string Name {get;set;} = String.Empty;
+    public string InitialZoneName {get;set;} = String.Empty;
+
+    public static Game ParseFromXML(XElement xml)
     {
-        Name = name;
-        Zones = new List<Zone>();
-        Zones.Add(initial);
-        InitialZoneName = initial.Name;
+        Game game = new Game();
+        game.Name = xml.GetAttribute("Name");
+        game.InitialZoneName = xml.GetAttribute("Start");
+        return game;
     }
 }

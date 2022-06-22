@@ -1,19 +1,25 @@
+using System.Xml.Linq;
+
 namespace WordWorldsXML.Models;
 
 public class Zone
 {
     //Assumed to be unique
-    public string Name {get;set;}
-    public List<Room> Rooms {get;set;}
-    public string InitialRoomName {get;set;}
+    public string Name {get;set;} = String.Empty;
+    public List<Room> Rooms {get;set;} = new List<Room>();
+    public string InitialRoomName {get;set;} = String.Empty;
     public Room InitialRoom => Rooms.Where(r => r.Name == InitialRoomName).Single();
 
-    public Zone(string name, Room initial)
+    public static Zone ParseFromXML(XElement xml)
     {
-        Name = name;
-        Rooms = new List<Room>();
-        Rooms.Add(initial);
-        InitialRoomName = initial.Name;
+        Zone zone = new Zone();
+        zone.Name = xml.GetAttribute("Name");
+        zone.InitialRoomName = xml.GetAttribute("Start");
+        foreach (var roomXML in xml.Descendants("Room"))
+        {
+            zone.Rooms.Add(Room.ParseFromXML(roomXML));
+        }
+        return zone;
     }
 
     public Room? GetRoomByDirection(Room currentRoom, string directionStr, out string error)
