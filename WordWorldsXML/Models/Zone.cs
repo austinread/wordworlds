@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-public class Zone
+public class Zone : IModel<Zone>
 {
     //Assumed to be unique
     public string Name {get;set;} = String.Empty;

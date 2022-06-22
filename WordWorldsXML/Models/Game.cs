@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-public class Game
+public class Game : IModel<Game>
 {
     public string Name {get;set;} = String.Empty;
     public string InitialZoneName {get;set;} = String.Empty;

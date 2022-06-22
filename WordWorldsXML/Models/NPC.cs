@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-public class NPC
+public class NPC : IModel<NPC>
 {
     public string Name {get;set;} = String.Empty;
     public string Description {get;set;} = String.Empty;

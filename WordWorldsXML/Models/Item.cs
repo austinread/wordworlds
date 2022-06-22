@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-public class Item
+public class Item: IModel<Item>
 {
     public string Name {get;set;} = String.Empty;
     public string Description {get;set;} = String.Empty;

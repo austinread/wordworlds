@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-public class Player
+public class Player : IModel<Player>
 {
     public string Name {get;set;} = String.Empty;
     public List<Item> Inventory {get;set;} = new List<Item>();
