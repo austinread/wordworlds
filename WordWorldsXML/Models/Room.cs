@@ -25,12 +25,12 @@ public class Room
         var neighbors = xml.Descendants("Neighbors").SingleOrDefault();
         if (neighbors != null)
         {
-            foreach (var attr in neighbors.Attributes())
+            foreach (var neighborXML in neighbors.Descendants("Neighbor"))
             {
-                if (!Directions.Match(attr.Name.ToString(), out int i))
+                if (!Directions.Match(neighborXML.GetAttribute("Direction"), out int i))
                     continue;
 
-                room.NeighboringIDs[i] = attr.Value;
+                room.NeighboringIDs[i] = neighborXML.GetAttribute("Name");
             }
         }
 
