@@ -22,16 +22,31 @@ public class Room
         room.Description = xml.GetAttribute("Description");
         room.Discovered = xml.GetBoolean("Discovered");
 
-        var neighbors = xml.Descendants("Neighbors").SingleOrDefault();
-        if (neighbors != null)
+        var neighborsXML = xml.Descendants("Neighbors").SingleOrDefault();
+        if (neighborsXML != null)
         {
-            foreach (var neighborXML in neighbors.Descendants("Neighbor"))
+            foreach (var neighborXML in neighborsXML.Descendants("Neighbor"))
             {
                 if (!Directions.Match(neighborXML.GetAttribute("Direction"), out int i))
                     continue;
 
                 room.NeighboringIDs[i] = neighborXML.GetAttribute("Name");
             }
+        }
+
+        var itemsXML = xml.Descendants("Items").SingleOrDefault();
+        if (itemsXML != null)
+        {
+            var context = ObjectManager.Instance;
+            foreach (var itemXML in itemsXML.Descendants("Item"))
+                room.Items.Add(context.LoadItem(itemXML.GetAttribute("Name")));
+        }
+        var npcsXML = xml.Descendants("NPCs").SingleOrDefault();
+        if (npcsXML != null)
+        {
+            var context = ObjectManager.Instance;
+            foreach (var npcXML in npcsXML.Descendants("NPC"))
+                room.NPCs.Add(context.LoadNPC(npcXML.GetAttribute("Name")));
         }
 
         return room;

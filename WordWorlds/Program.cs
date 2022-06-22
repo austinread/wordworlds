@@ -6,6 +6,7 @@ using WordWorldsXML.Models;
 
 
 var context = ObjectManager.Instance;
+context.DoInitialLoad();
 
 Application.Init();
 var narrationHelper = new NarrationHelper();
