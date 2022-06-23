@@ -102,6 +102,10 @@ Commands:
                     {
                         narrationHelper.Narrate("There is no object here by that name.");
                     }
+                    else if (!item.Takeable)
+                    {
+                        narrationHelper.Narrate("You can't pick that up.");
+                    }
                     else
                     {
                         context.LoadedPlayer.Inventory.Add(item);
