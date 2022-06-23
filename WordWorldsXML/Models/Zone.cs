@@ -15,7 +15,9 @@ public class Zone : IModel<Zone>
         Zone zone = new Zone();
         zone.Name = xml.GetAttribute("Name");
         zone.InitialRoomName = xml.GetAttribute("Start");
-        foreach (var roomXML in xml.Descendants("Room"))
+        foreach (var roomXML in xml.Descendants("Rooms")
+            .Single()
+            .Descendants("Room"))
         {
             zone.Rooms.Add(Room.ParseFromXML(roomXML));
         }
