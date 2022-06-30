@@ -125,14 +125,14 @@ public class NarrationHelper
         var context = ObjectManager.Instance;
 
         Narrate(context.CurrentRoom.Description, context.CurrentRoom.Name);
-        HintNorth.Text = GetHint(context.CurrentRoom.NeighboringIDs[0], context.LoadedZone, (x) => {return x + "\n^";});
-        HintNorthEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[1], context.LoadedZone, (x) => {return x + "\n^>";});
-        HintEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[2], context.LoadedZone, (x) => {return "> " + x;});
-        HintSouthEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[3], context.LoadedZone, (x) => {return "V>\n" + x;});
-        HintSouth.Text = GetHint(context.CurrentRoom.NeighboringIDs[4], context.LoadedZone, (x) => {return "V\n" + x;});
-        HintSouthWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[5], context.LoadedZone, (x) => {return "V<\n"  + x;});
-        HintWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[6], context.LoadedZone, (x) => {return x + " <";});
-        HintNorthWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[7], context.LoadedZone, (x) => {return x + "\n^<";});
+        HintNorth.Text = GetHint(context.CurrentRoom.NeighboringIDs[0], context.LoadedZone, (x) => {return x + "\n↑";});
+        HintNorthEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[1], context.LoadedZone, (x) => {return x + "\n↗";});
+        HintEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[2], context.LoadedZone, (x) => {return "→ " + x;});
+        HintSouthEast.Text = GetHint(context.CurrentRoom.NeighboringIDs[3], context.LoadedZone, (x) => {return "↘\n" + x;});
+        HintSouth.Text = GetHint(context.CurrentRoom.NeighboringIDs[4], context.LoadedZone, (x) => {return "↓\n" + x;});
+        HintSouthWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[5], context.LoadedZone, (x) => {return "↙\n"  + x;});
+        HintWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[6], context.LoadedZone, (x) => {return x + " ←";});
+        HintNorthWest.Text = GetHint(context.CurrentRoom.NeighboringIDs[7], context.LoadedZone, (x) => {return x + "\n↖";});
 
         //Wierd fuckery to align the right-side hints
         HintNorthEast.X = Pos.AnchorEnd() - HintNorthEast.Text.Length+3;
