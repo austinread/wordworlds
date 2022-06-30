@@ -67,7 +67,7 @@ public sealed class ObjectManager
     }
     private Zone LoadZone(string name)
     {
-        XElement zoneXML = XElement.Load($"{DataPath}/{name}.xml");
+        XElement zoneXML = XElement.Load($"{DataPath}/{Constants.ZONES_FOLDER}/{name}.xml");
         return Zone.ParseFromXML(zoneXML);
     }
     public Item LoadItem(string name)
