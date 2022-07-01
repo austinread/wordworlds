@@ -5,5 +5,6 @@ namespace WordWorldsXML.Models;
 interface IModel<T>
 {
     string Name {get;set;}
-    static T ParseFromXML(XElement xml) => throw new NotImplementedException();
+    string FileName {get;set;}
+    static T ParseFromXML(XElement xml, string fileName) => throw new NotImplementedException();
 }

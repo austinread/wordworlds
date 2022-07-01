@@ -6,6 +6,7 @@ public class Zone : IModel<Zone>
 {
     //Assumed to be unique
     public string Name {get;set;} = String.Empty;
+    public string FileName {get;set;} = String.Empty;
     public List<Room> Rooms {get;set;} = new List<Room>();
     public string InitialRoomName {get;set;} = String.Empty;
     public Room InitialRoom => Rooms.Where(r => r.Name == InitialRoomName).Single();
@@ -13,6 +14,7 @@ public class Zone : IModel<Zone>
     public static Zone ParseFromXML(XElement xml, string fileName)
     {
         Zone zone = new Zone();
+        zone.FileName = fileName;
         zone.Name = xml.GetAttribute("Name");
         zone.InitialRoomName = xml.GetAttribute("Start");
         foreach (var roomXML in xml.Descendants("Rooms")

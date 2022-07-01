@@ -63,8 +63,9 @@ public sealed class ObjectManager
     }
     private Game LoadGame()
     {
-        XElement gameXML = XElement.Load(DataPath + Constants.GAME_FILENAME);
-        return Game.ParseFromXML(gameXML);
+        string fileName = DataPath + Constants.GAME_FILENAME;
+        XElement gameXML = XElement.Load(fileName);
+        return Game.ParseFromXML(gameXML, fileName);
     }
     private Zone LoadZone(string name)
     {
@@ -74,12 +75,14 @@ public sealed class ObjectManager
     }
     public Item LoadItem(string name)
     {
-        XElement itemXML = XElement.Load($"{DataPath}/{Constants.ITEMS_FOLDER}/{name}.xml");
-        return Item.ParseFromXML(itemXML);
+        string fileName = $"{DataPath}/{Constants.ITEMS_FOLDER}/{name}.xml";
+        XElement itemXML = XElement.Load(fileName);
+        return Item.ParseFromXML(itemXML, fileName);
     }
     public NPC LoadNPC(string name)
     {
-        XElement npcXML = XElement.Load($"{DataPath}/{Constants.NPCS_FOLDER}/{name}.xml");
-        return NPC.ParseFromXML(npcXML);
+        string fileName = $"{DataPath}/{Constants.NPCS_FOLDER}/{name}.xml";
+        XElement npcXML = XElement.Load(fileName);
+        return NPC.ParseFromXML(npcXML, fileName);
     }
 }
