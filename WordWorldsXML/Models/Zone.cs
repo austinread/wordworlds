@@ -10,7 +10,7 @@ public class Zone : IModel<Zone>
     public string InitialRoomName {get;set;} = String.Empty;
     public Room InitialRoom => Rooms.Where(r => r.Name == InitialRoomName).Single();
 
-    public static Zone ParseFromXML(XElement xml)
+    public static Zone ParseFromXML(XElement xml, string fileName)
     {
         Zone zone = new Zone();
         zone.Name = xml.GetAttribute("Name");
@@ -19,7 +19,7 @@ public class Zone : IModel<Zone>
             .Single()
             .Descendants("Room"))
         {
-            zone.Rooms.Add(Room.ParseFromXML(roomXML));
+            zone.Rooms.Add(Room.ParseFromXML(roomXML, fileName));
         }
         return zone;
     }

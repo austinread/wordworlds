@@ -108,7 +108,7 @@ Commands:
                     }
                     else
                     {
-                        context.LoadedPlayer.Inventory.Add(item);
+                        context.CurrentRoom.TakeItem(item);
                         narrationHelper.Narrate($"You picked up the {item.Name}");
                     }
                 }

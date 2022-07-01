@@ -57,8 +57,9 @@ public sealed class ObjectManager
 
     private Player LoadPlayer()
     {
-        XElement playerXML = XElement.Load(DataPath + Constants.PLAYER_FILENAME);
-        return Player.ParseFromXML(playerXML);
+        string fileName = DataPath + Constants.PLAYER_FILENAME;
+        XElement playerXML = XElement.Load(fileName);
+        return Player.ParseFromXML(playerXML, fileName);
     }
     private Game LoadGame()
     {
@@ -67,8 +68,9 @@ public sealed class ObjectManager
     }
     private Zone LoadZone(string name)
     {
-        XElement zoneXML = XElement.Load($"{DataPath}/{Constants.ZONES_FOLDER}/{name}.xml");
-        return Zone.ParseFromXML(zoneXML);
+        string fileName = $"{DataPath}/{Constants.ZONES_FOLDER}/{name}.xml";
+        XElement zoneXML = XElement.Load(fileName);
+        return Zone.ParseFromXML(zoneXML, fileName);
     }
     public Item LoadItem(string name)
     {
