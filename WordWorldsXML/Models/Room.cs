@@ -86,7 +86,7 @@ public class Room : IModel<Room>
         var playerDoc = XDocument.Load(context.LoadedPlayer.FileName);
         playerDoc.Descendants("Player").Single()
             .Descendants("Inventory").Single()
-            .Add(new XElement("Item", new XAttribute("Name", item.Name)));
+            .Add(new XElement("Item", new XAttribute("Name", item.Name)));  //TODO: save the filename, NOT the name
 
         playerDoc.Save(context.LoadedPlayer.FileName);
     }
