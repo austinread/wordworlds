@@ -61,7 +61,7 @@ public class Room : IModel<Room>
     }
 
     /// <summary>
-    /// 
+    /// Removes the item from the room, adds it to the Player's inventory
     /// </summary>
     /// <param name="name">Must exist in room</param>
     public void TakeItem(Item item)
@@ -89,6 +89,23 @@ public class Room : IModel<Room>
             .Add(new XElement("Item", new XAttribute("Name", item.GetTruncatedFileName())));
 
         playerDoc.Save(context.LoadedPlayer.FileName);
+    }
+
+    /// <summary>
+    /// Marks this room as discovered in directional hints
+    /// </summary>
+    public void Discover()
+    {
+        Discovered = true;
+        
+        var zoneDoc = XDocument.Load(FileName);
+        zoneDoc.Descendants("Zone").Single()
+            .Descendants("Rooms").Single()
+            .Descendants("Room")
+            .Where(r => r.GetAttribute("Name") == Name).Single()
+            .SetAttributeValue("Discovered","true");
+
+        zoneDoc.Save(FileName);
     }
 
     public string GetChildDescriptionByName(string name, out string caseCorrectName)

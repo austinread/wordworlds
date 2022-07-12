@@ -84,7 +84,7 @@ Commands:
                     else
                     {
                         context.CurrentRoom = newRoom;
-                        if (!context.CurrentRoom.Discovered) context.CurrentRoom.Discovered = true;
+                        if (!context.CurrentRoom.Discovered) context.CurrentRoom.Discover();
                         narrationHelper.NarrateWithRoomHints();
                     }
                 }
