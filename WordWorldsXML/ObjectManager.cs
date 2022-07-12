@@ -67,7 +67,7 @@ public sealed class ObjectManager
         XElement gameXML = XElement.Load(fileName);
         return Game.ParseFromXML(gameXML, fileName);
     }
-    private Zone LoadZone(string name)
+    public Zone LoadZone(string name)
     {
         string fileName = $"{DataPath}/{Constants.ZONES_FOLDER}/{name}.xml";
         XElement zoneXML = XElement.Load(fileName);

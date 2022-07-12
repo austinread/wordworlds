@@ -8,4 +8,6 @@ public static class Constants
     public const string ZONES_FOLDER = "Zones";
     public const string ITEMS_FOLDER = "Items";
     public const string NPCS_FOLDER = "NPCs";
+
+    public const string ZONE_ROOM_DELIMITER = "|";
 }

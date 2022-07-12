@@ -34,9 +34,27 @@ public class Zone : IModel<Zone>
         {
             string roomName = currentRoom.NeighboringIDs[direction];
             if (roomName == String.Empty)
+            {
                 error = "There is nothing in that direction.";
+            }
             else
-                newRoom = Rooms.Where(r => r.Name == roomName).First();
+            {
+                if (roomName.Contains("|"))
+                {
+                    var context = ObjectManager.Instance;
+                    int indexOfDelimiter = roomName.IndexOf(Constants.ZONE_ROOM_DELIMITER);
+                    string zone = roomName.Substring(0,indexOfDelimiter);
+                    string room = roomName.Substring(indexOfDelimiter+1);
+                    
+                    Zone neighborZone = context.LoadZone(zone);
+                    newRoom = neighborZone.Rooms.Where(r => r.Name == room).FirstOrDefault();
+                    context.LoadedZone = neighborZone;
+                }
+                else
+                {
+                    newRoom = Rooms.Where(r => r.Name == roomName).First();
+                }
+            }
         }
         else
         {
