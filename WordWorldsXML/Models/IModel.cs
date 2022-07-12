@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace WordWorldsXML.Models;
 
-interface IModel<T>
+public interface IModel<T>
 {
     string Name {get;set;}
     string FileName {get;set;}
